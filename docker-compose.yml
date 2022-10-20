@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    container_name: compressor_db
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+
+  django:
+    build: .
+    container_name: django_app
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  celery:
+    build: .
+    container_name: celery
+    restart: always
+    command: celery -A core -l info
+    volumes:
+      - .:/code
+    depends_on:
+      - django
+      - redis
+      - db
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+
