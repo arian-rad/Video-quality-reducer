@@ -30,7 +30,7 @@ services:
     build: .
     container_name: celery
     restart: always
-    command: celery -A core -l info
+    command: celery -A core worker -l info
     volumes:
       - .:/code
     depends_on:

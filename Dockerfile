@@ -1,4 +1,6 @@
 FROM python:alpine
+# install ffmpeg
+RUN sudo apt install ffmpeg
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
