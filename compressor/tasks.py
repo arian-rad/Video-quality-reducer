@@ -5,7 +5,7 @@ from .models import Video
 
 
 @shared_task
-def reduce_quality_to_240(video_id):
+def reduce_quality_to_240_360(video_id):
     video_obj = Video.objects.get(id=video_id)
     filename = video_obj.main_file.file.name.split('.')[0]
     quality_dict = {
